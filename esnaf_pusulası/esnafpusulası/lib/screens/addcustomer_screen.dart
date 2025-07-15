@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'balancepage_screen.dart';
+import 'addbalance_screen.dart';
 class AddCustomerScreen extends StatefulWidget {
   const AddCustomerScreen({super.key});
 
@@ -43,7 +44,7 @@ class _AddCustomerScreenState extends State<AddCustomerScreen> {
             onPressed: () {},
             child: const Text(
               "Müşteri Listesi",
-              style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              style: TextStyle(color: Colors.black),
             ),
           ),
           TextButton(
@@ -54,10 +55,14 @@ class _AddCustomerScreenState extends State<AddCustomerScreen> {
             ),
           ),
           TextButton(
-            onPressed: () {},
+            onPressed: null, 
             child: const Text(
               "Müşteri Ekle",
-              style: TextStyle(color: Colors.black),
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                
+              ),
             ),
           ),
           TextButton(
@@ -142,7 +147,7 @@ class _AddCustomerScreenState extends State<AddCustomerScreen> {
                           hint: 'Müşteri Adresi',
                           validator: (value) =>
                               value!.isEmpty ? 'Adres giriniz' : null,
-                          maxLines: 9,
+                          maxLines: 3,
                           height: 72,
                         ),
                         const SizedBox(height: 20),

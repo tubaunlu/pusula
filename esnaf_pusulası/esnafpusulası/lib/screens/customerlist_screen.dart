@@ -185,104 +185,100 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
           ),
         ],
       ),
-      body: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 960),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: Stack(
+        children: [
+          Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 960),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text(
-                      'Müşteri Listesi',
-                      style: GoogleFonts.inter(
-                        fontSize: 32,
-                        fontWeight: FontWeight.w700,
-                        color: _textPrimary,
-                      ),
-                    ),
-                    FilledButton(
-                      style: FilledButton.styleFrom(
-                        backgroundColor: _textPrimary,
-                        foregroundColor: _accentBlue,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 6,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => AddCustomerScreen(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Müşteri Listesi',
+                          style: GoogleFonts.inter(
+                            fontSize: 32,
+                            fontWeight: FontWeight.w700,
+                            color: _textPrimary,
                           ),
-                        );
-                      },
-                      child: const Text(
-                        'Yeni Müşteri Ekle',
-                        style: TextStyle(fontSize: 14),
+                        ),
+                        FilledButton(
+                          style: FilledButton.styleFrom(
+                            backgroundColor: _textPrimary,
+                            foregroundColor: _accentBlue,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 6,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => AddCustomerScreen(),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            'Yeni Müşteri Ekle',
+                            style: TextStyle(fontSize: 14),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    // --- Search Bar ---
+                    TextField(
+                      controller: _searchController,
+                      decoration: InputDecoration(
+                        hintText: 'Müşteri ara...',
+                        prefixIcon: const Icon(Icons.search),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide.none,
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                        contentPadding: const EdgeInsets.symmetric(vertical: 0),
                       ),
+                      onSubmitted: (value) {
+                        _fetchCustomers(); // Fetch when user submits (presses enter)
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    Expanded(
+                      child: _isLoading
+                          ? const Center(
+                              child: CircularProgressIndicator(),
+                            ) // Show loading spinner
+                          : _customers.isEmpty && _currentSearchQuery.isEmpty
+                          ? const Center(
+                              child: Text('Henüz müşteri yok.'),
+                            ) // No customers initially
+                          : _customers.isEmpty && _currentSearchQuery.isNotEmpty
+                          ? const Center(
+                              child: Text(
+                                'Aradığınız kriterlere uygun müşteri bulunamadı.',
+                              ),
+                            ) // No customers for search
+                          : _CustomerTable(
+                              context,
+                              _customers,
+                            ), // Pass the fetched customers
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
-                // --- Search Bar ---
-                TextField(
-                  controller: _searchController,
-                  decoration: InputDecoration(
-                    hintText: 'Müşteri ara...',
-                    prefixIcon: const Icon(Icons.search),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide.none,
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                    contentPadding: const EdgeInsets.symmetric(vertical: 0),
-                  ),
-                  onSubmitted: (value) {
-                    _fetchCustomers(); // Fetch when user submits (presses enter)
-                  },
-                ),
-                const SizedBox(height: 16),
-                Expanded(
-                  child: _isLoading
-                      ? const Center(
-                          child: CircularProgressIndicator(),
-                        ) // Show loading spinner
-                      : _customers.isEmpty && _currentSearchQuery.isEmpty
-                      ? const Center(
-                          child: Text('Henüz müşteri yok.'),
-                        ) // No customers initially
-                      : _customers.isEmpty && _currentSearchQuery.isNotEmpty
-                      ? const Center(
-                          child: Text(
-                            'Aradığınız kriterlere uygun müşteri bulunamadı.',
-                          ),
-                        ) // No customers for search
-                      : _CustomerTable(
-                          context,
-                          _customers,
-                        ), // Pass the fetched customers
-                ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        backgroundColor: Colors.white,
-        tooltip: 'Geri',
-        child: const Icon(Icons.arrow_back, color: Colors.black),
+        ],
       ),
     );
   }
@@ -311,12 +307,21 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
               customer['AdSoyad'] ?? 'Bilinmeyen Müşteri';
           // You can choose what to display as subtitle.
           // For example, their balance:
-          final String customerBalance =
-              customer['Bakiye']?.toStringAsFixed(2) ??
-              '0.00'; // Format as currency
-          final String customerSubtitle =
-              'Bakiye: $customerBalance TL'; // Or use other fields like EPosta, CepTel
+          final String customerBalance = 
+              customer['Bakiye'] != null
+                  ? (customer['Bakiye'] is num
+                      ? (customer['Bakiye'] as num).toStringAsFixed(2)
+                      : double.tryParse(customer['Bakiye'].toString())?.toStringAsFixed(2) ?? '0.00')
+                  : '0.00'; // Format as currency
 
+            
+            final String customerPhone =
+              customer['CepTel'] ?? 'Telefon yok'; 
+
+            // Alt başlık: Bakiye ve telefon
+            final String customerSubtitle =
+              'Bakiye: $customerBalance TL\nTelefon: $customerPhone';
+         
           // Or if you want to use email/phone if available
           // final String customerEmail = customer['EPosta'] ?? '';
           // final String customerPhone = customer['CepTel'] ?? '';
@@ -347,18 +352,5 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
   }
 }
 
-class BalancePageScreen extends StatelessWidget {
-  const BalancePageScreen({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Müşteri Bakiyeleri'),
-      ),
-      body: const Center(
-        child: Text('Balance Page Content'),
-      ),
-    );
-  }
-}
+  

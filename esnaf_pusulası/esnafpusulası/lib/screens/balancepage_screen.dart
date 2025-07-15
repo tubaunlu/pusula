@@ -137,6 +137,7 @@ class BalancePageScreen extends StatelessWidget {
                                 TableCell(child: Text('Son Güncelleme Tarihi', style: TextStyle(fontWeight: FontWeight.bold))),
                               ],
                             ),
+                            // rastgele verilerle test edildi -> Gerçek veri için API entegrasyonu yapılması bekleniyor
                             TableRow(
                               decoration: const BoxDecoration(
                                 color: Colors.white,

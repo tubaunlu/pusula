@@ -151,7 +151,7 @@ class _AddBalanceScreenState extends State<AddBalanceScreen> {
                             ),
                           ),
                           const SizedBox(height: 20),
-                          // Balance Amount Input
+                
                           const Text('Bakiye Tutarı', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                           const SizedBox(height: 8),
                           SizedBox(
@@ -166,7 +166,7 @@ class _AddBalanceScreenState extends State<AddBalanceScreen> {
                             ),
                           ),
                           const SizedBox(height: 20),
-                          // Confirm Button
+                        
                           Align(
                             alignment: Alignment.centerRight,
                             child: ElevatedButton(

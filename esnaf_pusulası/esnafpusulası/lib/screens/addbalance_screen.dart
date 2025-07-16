@@ -143,7 +143,7 @@ class _AddBalanceScreenState extends State<AddBalanceScreen> {
                             height: 48,
                             child: TextField(
                               decoration: InputDecoration(
-                                hintText: 'Müşteri Seç',
+                                hintText: 'Müşteri Seç',   //API bekleniyor
                                 suffixIcon: const Icon(Icons.arrow_drop_down),
                                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                                 contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),

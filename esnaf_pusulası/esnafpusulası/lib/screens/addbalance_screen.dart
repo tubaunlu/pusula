@@ -136,7 +136,7 @@ class _AddBalanceScreenState extends State<AddBalanceScreen> {
                             ],
                           ),
                           const SizedBox(height: 20),
-                          // Customer Input
+                        
                           const Text('Müşteri', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                           const SizedBox(height: 8),
                           SizedBox(

@@ -65,7 +65,7 @@ class BalancePageScreen extends StatelessWidget {
                               
                               ],
                             ),
-                            // rastgele verilerle test edildi -> Gerçek veri için API entegrasyonu yapılması bekleniyor
+                          
                             TableRow(
                               decoration: const BoxDecoration(
                                 color: Colors.white,

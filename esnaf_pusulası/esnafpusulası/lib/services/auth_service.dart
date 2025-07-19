@@ -11,7 +11,7 @@ class AuthService {
     };
 
     final body = jsonEncode({
-      'email': email, // API "email" bekliyor
+      'email': email, 
       'password': password,
     });
 

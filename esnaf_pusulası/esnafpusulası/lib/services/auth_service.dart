@@ -3,8 +3,10 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class AuthService {
+
+  static const String baseUrl = 'https://pusula-api-netcore.necmettincimen.xyz';
   static Future<http.Response?> loginUser(String email, String password) async {
-    final url = Uri.parse('https://pusula-api-netcore.necmettincimen.xyz/login');
+    final url = Uri.parse(baseUrl+'/login');
     final headers = {
       'accept': '/',
       'Content-Type': 'application/json',

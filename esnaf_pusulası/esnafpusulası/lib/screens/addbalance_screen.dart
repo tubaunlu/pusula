@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'addcustomer_screen.dart';
+import 'package:flutter_application_5/screens/addcustomer_screen.dart';
+import 'package:flutter_application_5/services/balance_service.dart';
 import 'balancepage_screen.dart';
 import 'customerlist_screen.dart';
+
 
 class AddBalanceScreen extends StatefulWidget {
   const AddBalanceScreen({super.key});
@@ -11,6 +13,23 @@ class AddBalanceScreen extends StatefulWidget {
 }
 
 class _AddBalanceScreenState extends State<AddBalanceScreen> {
+ final TextEditingController bakiyeController = TextEditingController();
+ Future<void> updateCustomerBalance() async {
+  final BalanceService balanceService = BalanceService();
+  final String customerNum = 'your_customer_id'; // Replace with actual customer ID
+  final int newBalance = int.parse(bakiyeController.text); // Replace with the desired balance
+
+  bool success = await balanceService.updateBalance(customerNum, newBalance);
+
+  if (success) {
+    // Handle successful update (e.g., show a success message)
+    print('Balance update operation completed successfully.');
+  } else {
+    // Handle failed update (e.g., show an error message)
+    print('Balance update operation failed.');
+  }
+}
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,85 +39,7 @@ class _AddBalanceScreenState extends State<AddBalanceScreen> {
           builder: (context, constraints) {
             return Column(
               children: [
-                // Header
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  decoration: const BoxDecoration(
-                    border: Border(bottom: BorderSide(color: Color(0xFFededed))),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          const Icon(Icons.home, color: Colors.black),
-                          const SizedBox(width: 8),
-                          const Text(
-                            'Esnaf Pusulası',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                              letterSpacing: -0.5,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => const CustomerListScreen()),
-                              );
-                            },
-                            child: const Text(
-                              "Müşteri Listesi",
-                              style: TextStyle(
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => const BalancePageScreen()),
-                              );
-                            },
-                            child: const Text(
-                              "Müşteri Bakiyeleri",
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => const AddCustomerScreen()),
-                              );
-                            },
-                            child: const Text(
-                              "Müşteri Ekle",
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ),
-                        TextButton(
-                          onPressed: null, 
-                          child: const Text(
-                            "Bakiye Ekle",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                // Body
+          
                 Expanded(
                   child: Center(
                     child: Container(
@@ -127,7 +68,7 @@ class _AddBalanceScreenState extends State<AddBalanceScreen> {
                                 onPressed: () {
                                   Navigator.pushReplacement(
                                     context,
-                                    MaterialPageRoute(builder: (context) => const AddCustomerScreen()),
+                                    MaterialPageRoute(builder: (context) => const CustomerListScreen()),
                                   );
                                 },
                               ),
@@ -143,7 +84,7 @@ class _AddBalanceScreenState extends State<AddBalanceScreen> {
                             height: 48,
                             child: TextField(
                               decoration: InputDecoration(
-                                hintText: 'Müşteri Seç',   //API bekleniyor
+                                hintText: 'Müşteri Seç',   
                                 suffixIcon: const Icon(Icons.arrow_drop_down),
                                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                                 contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
@@ -156,7 +97,9 @@ class _AddBalanceScreenState extends State<AddBalanceScreen> {
                           const SizedBox(height: 8),
                           SizedBox(
                             height: 48,
-                            child: TextField(
+                            
+                          child: TextField(
+                            controller : bakiyeController,
                               decoration: InputDecoration(
                                 hintText: '0,00',
                                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
@@ -165,12 +108,13 @@ class _AddBalanceScreenState extends State<AddBalanceScreen> {
                               keyboardType: TextInputType.number,
                             ),
                           ),
-                          const SizedBox(height: 20),
+                        
+                         const SizedBox(height: 20),
                         
                           Align(
                             alignment: Alignment.centerRight,
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: updateCustomerBalance,
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.black,
                                 minimumSize: const Size(84, 40),

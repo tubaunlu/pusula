@@ -1,91 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_5/widget/pusula_appbar.dart';
 import 'addcustomer_screen.dart';
 import 'addbalance_screen.dart';
 import 'customerlist_screen.dart';
+import 'package:intl/intl.dart';
 
 class BalancePageScreen extends StatelessWidget {
-  const BalancePageScreen({super.key});
+  final Map<String, dynamic> customer;
+  const BalancePageScreen({super.key, required this.customer});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF1F5F9),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: Row(
-          children: [
-            const Icon(Icons.home, color: Colors.black),
-            const SizedBox(width: 8),
-            const Text(
-              'Esnaf Pusulası',
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                letterSpacing: -0.5,
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {},
-            child: const Text(
-              "Müşteri Listesi",
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const BalancePageScreen()),
-              );
-            },
-            child: const Text(
-              "Müşteri Bakiyeleri",
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => AddCustomerScreen()),
-              );
-            },
-            child: const Text(
-              "Müşteri Ekle",
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
-          TextButton(
-            onPressed: () {},
-            child: const Text(
-              "Bakiye Ekle",
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-              ),
-              child: const Text(
-                "Kullanıcı Girişi",
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-          ),
-        ],
-      ),
+      appBar: PusulaAppBar(), 
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -132,9 +60,9 @@ class BalancePageScreen extends StatelessWidget {
                               ),
                               children: const [
                                 TableCell(child: Text('Müşteri Adı', style: TextStyle(fontWeight: FontWeight.bold))),
-                                TableCell(child: Text('Soyadı', style: TextStyle(fontWeight: FontWeight.bold))),
                                 TableCell(child: Text('Bakiye Tutarı', style: TextStyle(fontWeight: FontWeight.bold))),
-                                TableCell(child: Text('Son Güncelleme Tarihi', style: TextStyle(fontWeight: FontWeight.bold))),
+                                TableCell(child: Text('Kayıt Tarihi', style: TextStyle(fontWeight: FontWeight.bold))),
+                              
                               ],
                             ),
                             // rastgele verilerle test edildi -> Gerçek veri için API entegrasyonu yapılması bekleniyor
@@ -142,24 +70,13 @@ class BalancePageScreen extends StatelessWidget {
                               decoration: const BoxDecoration(
                                 color: Colors.white,
                               ),
-                              children: const [
-                                TableCell(child: Text('Ayşe')),
-                                TableCell(child: Text('Yılmaz')),
-                                TableCell(child: Text('1500 TL')),
-                                TableCell(child: Text('2024-07-26')),
+                              children:  [
+                                TableCell(child: Text(customer["AdSoyad"] ?? '')),
+                                TableCell(child: Text(customer['Bakiye'].toString())),
+                                TableCell(child: Text(customer["KayitTarihi"].toString().substring(0,10))),
                               ],
                             ),
-                            TableRow(
-                              decoration: const BoxDecoration(
-                                color: Colors.white,
-                              ),
-                              children: const [
-                                TableCell(child: Text('Mehmet')),
-                                TableCell(child: Text('Öztürk')),
-                                TableCell(child: Text('2200 TL')),
-                                TableCell(child: Text('2024-07-25')),
-                              ],
-                            ),
+                            
                             
                           ],
                         ),

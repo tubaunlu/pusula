@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_5/widget/pusula_appbar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'balancepage_screen.dart';
 import 'addbalance_screen.dart';
@@ -21,73 +22,7 @@ class _AddCustomerScreenState extends State<AddCustomerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF1F5F9),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: Row(
-          children: [
-            const Icon(Icons.home, color: Colors.black),
-            const SizedBox(width: 8),
-            const Text(
-              'Esnaf Pusulası',
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                letterSpacing: -0.5,
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {},
-            child: const Text(
-              "Müşteri Listesi",
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
-          TextButton(
-            onPressed: () {},
-            child: const Text(
-              "Müşteri Bakiyeleri",
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
-          TextButton(
-            onPressed: null, 
-            child: const Text(
-              "Müşteri Ekle",
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                
-              ),
-            ),
-          ),
-          TextButton(
-            onPressed: () {},
-            child: const Text(
-              "Bakiye Ekle",
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-              ),
-              child: const Text(
-                "Kullanıcı Girişi",
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-          ),
-        ],
-      ),
+      appBar: PusulaAppBar(), 
       body: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 500),

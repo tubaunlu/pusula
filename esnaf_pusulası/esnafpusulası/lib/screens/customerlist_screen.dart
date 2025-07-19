@@ -1,9 +1,11 @@
 import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:flutter/material.dart';
+import 'package:flutter_application_5/services/auth_service.dart';
+import 'package:flutter_application_5/widget/pusula_appbar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http; // Import http package
 import 'dart:convert'; // Import for JSON decoding
-
+import 'addbalance_screen.dart';
 import 'balancepage_screen.dart';
 import 'addcustomer_screen.dart';
 
@@ -56,7 +58,8 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
     final String search = _currentSearchQuery; // Use the current search query
 
     final Uri url =
-        Uri.parse('https://pusula-api-netcore.necmettincimen.xyz/list').replace(
+        // ignore: prefer_interpolation_to_compose_strings
+        Uri.parse(AuthService.baseUrl+'/list').replace(
           queryParameters: {
             'take': take.toString(),
             'skip': skip.toString(),
@@ -109,82 +112,7 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF1F5F9),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: Row(
-          children: [
-            const Icon(Icons.home, color: Colors.black),
-            const SizedBox(width: 8),
-            const Text(
-              'Esnaf Pusulası',
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                letterSpacing: -0.5,
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {},
-            child: const Text(
-              "Müşteri Listesi",
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const BalancePageScreen()),
-              );
-            },
-            child: const Text(
-              "Müşteri Bakiyeleri",
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => AddCustomerScreen()),
-              );
-            },
-            child: const Text(
-              "Müşteri Ekle",
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
-          TextButton(
-            onPressed: () {},
-            child: const Text(
-              "Bakiye Ekle",
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-              ),
-              child: const Text(
-                "Kullanıcı Girişi",
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-          ),
-        ],
-      ),
+      appBar: PusulaAppBar(),
       body: Stack(
         children: [
           Center(
@@ -342,7 +270,7 @@ class _CustomerListScreenState extends State<CustomerListScreen> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => BalancePageScreen()),
+                MaterialPageRoute(builder: (_) => BalancePageScreen(customer:customer)),
               );
             },
           );

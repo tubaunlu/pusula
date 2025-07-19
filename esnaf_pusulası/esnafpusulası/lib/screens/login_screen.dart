@@ -1,5 +1,8 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_application_5/widget/pusula_appbar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../services/auth_service.dart';
 import 'customerlist_screen.dart';
 
@@ -19,8 +22,10 @@ class _LoginScreenState extends State<LoginScreen> {
       _usernameController.text,
       _passwordController.text,
     );
-
-    if (response != null && response.statusCode == 200) {
+        final Map<String, dynamic> responseBody = jsonDecode(response!.body);
+    if (response.statusCode == 200 && responseBody["success"] == true) {
+     final prefs = await SharedPreferences.getInstance();
+     await prefs.setString("Kullanici", response.body);     
       Navigator.pushReplacement(
         // ignore: use_build_context_synchronously
         context,
@@ -48,67 +53,6 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFAFAFA),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: const Row(
-          children: [
-            Icon(Icons.home, color: Colors.black),
-            SizedBox(width: 8),
-            Text(
-              'Esnaf Pusulası',
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                letterSpacing: -0.5,
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {},
-            child: const Text(
-              "Müşteri Listesi",
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
-          TextButton(
-            onPressed: () {},
-            child: const Text(
-              "Müşteri Bakiyeleri",
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
-          TextButton(
-            onPressed: () {},
-            child: const Text(
-              "Müşteri Ekle",
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
-          TextButton(
-            onPressed: () {},
-            child: const Text(
-              "Bakiye Ekle",
-              style: TextStyle(color: Colors.black),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-              ),
-              child: const Text("Kullanıcı Girişi",
-                  style: TextStyle(color: Colors.white)),
-            ),
-          ),
-        ],
-      ),
       body: Center(
         child: SingleChildScrollView(
           child: SizedBox(
@@ -119,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    'Hoşgeldiniz',
+                    'Esnaf Pusulasına Hoşgeldiniz',
                     style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
